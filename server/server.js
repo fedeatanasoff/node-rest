@@ -1,3 +1,4 @@
+require("./config");
 const express = require("express");
 const app = express();
 
@@ -18,4 +19,6 @@ app.post("/", (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("corriendo en puerto 3000"));
+app.listen(process.env.PORT, () =>
+  console.log(`corriendo en puerto ${process.env.PORT}`)
+);
