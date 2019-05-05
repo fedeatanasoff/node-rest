@@ -4,17 +4,17 @@ const mongoose = require("mongoose");
 const colors = require("colors");
 const app = express();
 
-app.use(require("./routes/usuario"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(require("./routes/usuario"));
 
 mongoose.connect(
   "mongodb://localhost:27017/cafe",
-  { useNewUrlParser: true },
+  { useNewUrlParser: true, useCreateIndex: true },
   (err, res) => {
     if (err) throw err;
 
-    console.log("Conexion a la base de datos establecida".bold.green);
+    console.log("Conexion a la BD establecida".bold.green);
   }
 );
 
