@@ -19,9 +19,19 @@ app.get("/usuario", (req, res) => {
         });
       }
 
-      res.json({
-        ok: true,
-        usuarios: data
+      Usuario.count({}, (err, cantidad) => {
+        if (err) {
+          return res.status(400).json({
+            ok: false,
+            err
+          });
+        }
+
+        res.json({
+          ok: true,
+          total: cantidad,
+          usuarios: data
+        });
       });
     });
 });
