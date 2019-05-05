@@ -15,7 +15,7 @@ app.get("/usuario", (req, res) => {
       if (err) {
         return res.status(400).json({
           ok: false,
-          err
+          error: err
         });
       }
 
@@ -23,7 +23,7 @@ app.get("/usuario", (req, res) => {
         if (err) {
           return res.status(400).json({
             ok: false,
-            err
+            error: err
           });
         }
 
@@ -50,7 +50,7 @@ app.post("/usuario", (req, res) => {
     if (err) {
       return res.status(400).json({
         ok: false,
-        err
+        error: err
       });
     }
 
@@ -65,24 +65,35 @@ app.put("/usuario/:id", (req, res) => {
   const id = req.params.id;
   const body = _.pick(req.body, ["nombre", "email", "img", "role", "estado"]);
 
-  Usuario.findOneAndUpdate(
-    id,
-    body,
-    { new: true, useFindAndModify: false },
-    (err, usuarioDB) => {
-      if (err) {
-        return res.status(400).json({
-          ok: false,
-          err
-        });
-      }
-
-      res.json({
-        ok: true,
-        usuario: usuarioDB
+  Usuario.findByIdAndUpdate(id, body, { new: true }, (err, usuarioDB) => {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        error: err
       });
     }
-  );
+
+    res.json({
+      ok: true,
+      usuario: usuarioDB
+    });
+  });
+});
+
+app.delete("/usuario/:id", (req, res) => {
+  const id = req.params.id;
+
+  Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
+    if (err) {
+      return res.status(400).json({ ok: false, error: err });
+    }
+
+    if (!usuarioBorrado) {
+      return res.status(400).json({ ok: false, error: "el usuario no existe" });
+    }
+
+    res.json({ ok: true, usuario: usuarioBorrado });
+  });
 });
 
 module.exports = app;
