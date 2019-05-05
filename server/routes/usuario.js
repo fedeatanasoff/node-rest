@@ -4,8 +4,26 @@ const _ = require("underscore");
 const app = express();
 const Usuario = require("../models/Usuario");
 
-app.get("/", (req, res) => {
-  res.json({ message: "hello friend desde usuario" });
+app.get("/usuario", (req, res) => {
+  let desde = Number(req.query.desde) || 0;
+  let limite = Number(req.query.limite) || 10;
+
+  Usuario.find({})
+    .skip(desde)
+    .limit(limite)
+    .exec((err, data) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err
+        });
+      }
+
+      res.json({
+        ok: true,
+        usuarios: data
+      });
+    });
 });
 
 app.post("/usuario", (req, res) => {
