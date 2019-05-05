@@ -8,7 +8,7 @@ app.get("/usuario", (req, res) => {
   let desde = Number(req.query.desde) || 0;
   let limite = Number(req.query.limite) || 10;
 
-  Usuario.find({})
+  Usuario.find({}, "nombre email role estado google img")
     .skip(desde)
     .limit(limite)
     .exec((err, data) => {
