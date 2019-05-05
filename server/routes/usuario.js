@@ -8,7 +8,7 @@ app.get("/usuario", (req, res) => {
   let desde = Number(req.query.desde) || 0;
   let limite = Number(req.query.limite) || 10;
 
-  Usuario.find({}, "nombre email role estado google img")
+  Usuario.find({ estado: true }, "nombre email role estado google img")
     .skip(desde)
     .limit(limite)
     .exec((err, data) => {
@@ -19,7 +19,7 @@ app.get("/usuario", (req, res) => {
         });
       }
 
-      Usuario.count({}, (err, cantidad) => {
+      Usuario.count({ estado: true }, (err, cantidad) => {
         if (err) {
           return res.status(400).json({
             ok: false,
@@ -73,6 +73,10 @@ app.put("/usuario/:id", (req, res) => {
       });
     }
 
+    if (!usuarioDB) {
+      return res.status(400).json({ ok: false, error: "el usuario no existe" });
+    }
+
     res.json({
       ok: true,
       usuario: usuarioDB
@@ -83,17 +87,26 @@ app.put("/usuario/:id", (req, res) => {
 app.delete("/usuario/:id", (req, res) => {
   const id = req.params.id;
 
-  Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
-    if (err) {
-      return res.status(400).json({ ok: false, error: err });
-    }
+  let nuevoEstado = { estado: false };
 
-    if (!usuarioBorrado) {
-      return res.status(400).json({ ok: false, error: "el usuario no existe" });
-    }
+  Usuario.findByIdAndUpdate(
+    id,
+    nuevoEstado,
+    { new: true },
+    (err, usuarioBorrado) => {
+      if (err) {
+        return res.status(400).json({ ok: false, error: err });
+      }
 
-    res.json({ ok: true, usuario: usuarioBorrado });
-  });
+      if (!usuarioBorrado) {
+        return res
+          .status(400)
+          .json({ ok: false, error: "el usuario no existe" });
+      }
+
+      res.json({ ok: true, usuario: usuarioBorrado });
+    }
+  );
 });
 
 module.exports = app;
