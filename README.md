@@ -2,14 +2,14 @@
 
 alcances del REST Server
 
-- CRUD
-- Encriptación de contraseñas
-- Validaciones personalizadas
-- Creación de roles
-- Conexiones con MLAB
-- Despliegue de base de datos en la nube
-- Conexión con Robo 3T con base de datos en la nube
-- Configuración de variables de entorno
-- Borrado de archivos
-- Eliminado físico de la base de datos
-- Eliminación por estado en un campo de la colección
+- [x] CRUD
+- [x] Encriptación de contraseñas
+- [ ] Validaciones personalizadas
+- [ ] Creación de roles
+- [ ] Conexiones con Atlas
+- [x] Despliegue de base de datos en la nube
+- [ ] Conexión con Compass con base de datos en la nube
+- [ ] Configuración de variables de entorno
+- [x] Borrado de archivos
+- [x] Eliminado físico de la base de datos
+- [x] Eliminación por estado en un campo de la colección
