@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const colors = require("colors");
 const app = express();
-
+const PORT = process.env.PORT;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(require("./routes/usuario"));
@@ -18,6 +18,6 @@ mongoose.connect(
   }
 );
 
-app.listen(process.env.PORT, () =>
-  console.log(`Servidor corriendo en puerto ${process.env.PORT}`.bold.green)
+app.listen(PORT, () =>
+  console.log(`Servidor corriendo en puerto ${PORT}`.bold.green)
 );
