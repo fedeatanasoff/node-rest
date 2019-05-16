@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(require("./routes/usuario"));
 
 mongoose.connect(
-  "mongodb://localhost:27017/cafe",
+  process.env.URLDB,
   { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false },
   (err, res) => {
     if (err) throw err;
