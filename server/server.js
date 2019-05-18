@@ -4,9 +4,10 @@ const mongoose = require("mongoose");
 const colors = require("colors");
 const app = express();
 const PORT = process.env.PORT;
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(require("./routes/usuario"));
+app.use(require("./routes/index"));
 
 mongoose.connect(
   process.env.URLDB,
